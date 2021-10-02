@@ -34,5 +34,4 @@ public class CategoriaService {
 	public void excluir(Integer id) {
 		categoriaRepository.deleteById(id);
 	}
-	
 }
