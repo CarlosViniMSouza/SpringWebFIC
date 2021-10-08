@@ -55,7 +55,6 @@ public class ProdutoController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> listarTodos() {
 		List<Produto> produtos = produtoService.listarTodos();
-		
 		return ResponseEntity.ok().body(produtos);
 	}
 }

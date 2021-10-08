@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -60,15 +61,14 @@ public class CategoriaController {
 		return ResponseEntity.ok().body(categorias);
 	}
 	
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> listarPaginas(
-			Integer page,
-			Integer size,
-			String ord,
-			String dir
+	@RequestMapping(value="/pages", method = RequestMethod.GET)
+	public ResponseEntity<?> listarPagina(
+			@RequestParam(value="page", defaultValue="0") Integer page,
+			@RequestParam(value="size", defaultValue="2") Integer size,
+			@RequestParam(value="ord", defaultValue="description") String ord,
+			@RequestParam(value="dir", defaultValue="ASC") String dir
 			) {
-		Page<Categoria> categorias = categoriaService.listarPaginas();
+		Page<Categoria> categorias = categoriaService.listarPagina(page, size, ord, dir);
 		
 		return ResponseEntity.ok().body(categorias);
 	}

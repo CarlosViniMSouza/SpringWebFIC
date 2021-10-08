@@ -36,8 +36,7 @@ public class ProdutoService {
 		produtoRepository.deleteById(id);
 	}
 	
-	public List<Produto> listarTodos() {
-				
+	public List<Produto> listarTodos() {	
 		return produtoRepository.findAll();
 	}
 }

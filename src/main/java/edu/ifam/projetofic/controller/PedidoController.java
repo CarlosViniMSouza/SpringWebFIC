@@ -1,6 +1,7 @@
 package edu.ifam.projetofic.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,11 @@ public class PedidoController {
 		pedidoService.excluir(id);
 		
 		return ResponseEntity.noContent().build();	
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> listarTodos() {
+		List<Pedido> pedidos = pedidoService.listarTodos();
+		return ResponseEntity.ok().body(pedidos);
 	}
 }

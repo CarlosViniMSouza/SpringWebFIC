@@ -1,8 +1,12 @@
 package edu.ifam.projetofic.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import edu.ifam.projetofic.domain.Cliente;
@@ -33,5 +37,18 @@ public class ClienteService {
 	
 	public void excluir(Integer id) {
 		clienteRepository.deleteById(id);
+	}
+	
+	public List<Cliente> listarTodos() {
+		return clienteRepository.findAll();
+	}
+	
+	public Page<Cliente> listarPagina(
+			Integer page,
+			Integer size,
+			String ord,
+			String dir) {
+		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(dir), ord);
+		return clienteRepository.findAll(pageRequest);
 	}
 }
