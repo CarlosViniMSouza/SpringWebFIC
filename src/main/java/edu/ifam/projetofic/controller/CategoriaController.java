@@ -1,8 +1,10 @@
 package edu.ifam.projetofic.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,4 +53,23 @@ public class CategoriaController {
 		return ResponseEntity.noContent().build();	
 	}
 	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> listarTodos() {
+		List<Categoria> categorias = categoriaService.listarTodos();
+		
+		return ResponseEntity.ok().body(categorias);
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> listarPaginas(
+			Integer page,
+			Integer size,
+			String ord,
+			String dir
+			) {
+		Page<Categoria> categorias = categoriaService.listarPaginas();
+		
+		return ResponseEntity.ok().body(categorias);
+	}
 }

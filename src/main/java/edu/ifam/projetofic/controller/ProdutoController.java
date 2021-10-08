@@ -1,10 +1,10 @@
 package edu.ifam.projetofic.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,5 +50,12 @@ public class ProdutoController {
 		produtoService.excluir(id);
 		
 		return ResponseEntity.noContent().build();	
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> listarTodos() {
+		List<Produto> produtos = produtoService.listarTodos();
+		
+		return ResponseEntity.ok().body(produtos);
 	}
 }

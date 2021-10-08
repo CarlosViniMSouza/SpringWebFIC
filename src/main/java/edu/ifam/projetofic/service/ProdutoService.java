@@ -1,5 +1,6 @@
 package edu.ifam.projetofic.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,10 @@ public class ProdutoService {
 	
 	public void excluir(Integer id) {
 		produtoRepository.deleteById(id);
+	}
+	
+	public List<Produto> listarTodos() {
+				
+		return produtoRepository.findAll();
 	}
 }
