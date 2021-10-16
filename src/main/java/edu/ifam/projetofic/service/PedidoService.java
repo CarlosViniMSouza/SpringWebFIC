@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.ifam.projetofic.domain.Pedido;
+import edu.ifam.projetofic.repository.ItemPedidoRepository;
 import edu.ifam.projetofic.repository.PedidoRepository;
 import edu.ifam.projetofic.service.exception.ObjectNotFoundException;
 
@@ -14,7 +15,10 @@ import edu.ifam.projetofic.service.exception.ObjectNotFoundException;
 public class PedidoService {
 	
 	@Autowired
-	private PedidoRepository pedidoRepository;
+	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
 	
 	public Pedido listar(Integer id) {
 		Optional<Pedido> pedido = pedidoRepository.findById(id);
@@ -24,6 +28,8 @@ public class PedidoService {
 	}
 	
 	public Pedido inserir(Pedido pedido) {
+		pedido = pedidoRepository.save(pedido);
+		itemPedidoRepository.saveAll(pedido.getItensPedido());
 		return pedidoRepository.save(pedido);
 	}
 	

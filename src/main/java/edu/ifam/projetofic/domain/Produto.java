@@ -1,6 +1,8 @@
 package edu.ifam.projetofic.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Produto implements Serializable {
@@ -28,8 +31,11 @@ public class Produto implements Serializable {
 	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
 	
+	@OneToMany(mappedBy = "produto")
+	private List<ItemPedido> itensPedido = new ArrayList<ItemPedido>();
+	
 	public Produto() {
-		//deixa quieto, vai ser importante esse metodo vazio.
+		//empty
 	}
 	
 	public Produto(Integer id, String description, Float preco, Categoria categoria) {
@@ -69,6 +75,14 @@ public class Produto implements Serializable {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+
+	public void setItensPedido(List<ItemPedido> itensPedido) {
+		this.itensPedido = itensPedido;
 	}
 
 	@Override
