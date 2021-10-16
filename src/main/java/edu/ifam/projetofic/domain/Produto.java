@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto implements Serializable {
 	
@@ -32,6 +34,7 @@ public class Produto implements Serializable {
 	private Categoria categoria;
 	
 	@OneToMany(mappedBy = "produto")
+	@JsonIgnore
 	private List<ItemPedido> itensPedido = new ArrayList<ItemPedido>();
 	
 	public Produto() {

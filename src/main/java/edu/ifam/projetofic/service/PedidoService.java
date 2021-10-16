@@ -28,8 +28,14 @@ public class PedidoService {
 	}
 	
 	public Pedido inserir(Pedido pedido) {
-		pedido = pedidoRepository.save(pedido);
+		Pedido pedidoSaved = pedidoRepository.save(pedido);
+		
+		pedido.getItensPedido().forEach(itemPedido -> {
+			itemPedido.setPedido(pedidoSaved);
+		});
+		
 		itemPedidoRepository.saveAll(pedido.getItensPedido());
+		
 		return pedidoRepository.save(pedido);
 	}
 	

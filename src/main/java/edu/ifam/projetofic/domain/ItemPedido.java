@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 
@@ -59,6 +61,7 @@ public class ItemPedido implements Serializable {
 		this.qtd = qtd;
 	}
 
+	@JsonIgnore
 	public Pedido getPedido() {
 		return pedido;
 	}
