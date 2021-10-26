@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import edu.ifam.projetofic.domain.Categoria;
 import edu.ifam.projetofic.repository.CategoriaRepository;
+import edu.ifam.projetofic.service.exception.DataIntegrityException;
 import edu.ifam.projetofic.service.exception.ObjectNotFoundException;
 
 @Service
@@ -37,7 +39,14 @@ public class CategoriaService {
 	
 	public void excluir(Integer id) {
 		listar(id);
-		categoriaRepository.deleteById(id);
+		
+		try {
+			categoriaRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Nao foi possivel realizar a exclusao! " 
+					+ "ID: " + id + ", Tipo: " + Categoria.class.getName());
+		}
+		
 	}
 	
 	public List<Categoria> listarTodos() {

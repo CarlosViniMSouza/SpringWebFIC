@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import edu.ifam.projetofic.domain.Produto;
 import edu.ifam.projetofic.repository.ProdutoRepository;
+import edu.ifam.projetofic.service.exception.DataIntegrityException;
 import edu.ifam.projetofic.service.exception.ObjectNotFoundException;
 
 @Service
@@ -33,7 +35,14 @@ public class ProdutoService {
 	}
 	
 	public void excluir(Integer id) {
-		produtoRepository.deleteById(id);
+		listar(id);
+		
+		try {
+			produtoRepository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Nao foi possivel realizar a exclusao! " 
+					+ "ID: " + id + ", Tipo: " + Produto.class.getName());
+		}
 	}
 	
 	public List<Produto> listarTodos() {	

@@ -1,5 +1,6 @@
 package edu.ifam.projetofic.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,6 @@ public class PedidoService {
 	
 	public Pedido listar(Integer id) {
 		Optional<Pedido> pedido = pedidoRepository.findById(id);
-		
 		return pedido.orElseThrow(() -> new ObjectNotFoundException(
 				"Pedido Nao Encontrado! ID: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
@@ -39,13 +39,28 @@ public class PedidoService {
 		return pedidoRepository.save(pedido);
 	}
 	
-	public Pedido atualizar(Integer id, Pedido pedido) {
+	public Pedido atualizar(Pedido pedido, Integer id) {
 		pedido.setId(id);
+		
+		pedido.getItensPedido().forEach(itemPedido -> {
+			itemPedido.setPedido(pedido);
+		});
+		
+		itemPedidoRepository.saveAll(pedido.getItensPedido());
+		
 		return pedidoRepository.save(pedido);
 	}
 	
 	public void excluir(Integer id) {
-		pedidoRepository.deleteById(id);
+		Pedido pedido = listar(id);
+		
+		List<Integer> ids = new ArrayList<>();
+		
+		pedido.getItensPedido().forEach(itemPedidoRepository -> {
+			ids.add(itemPedidoRepository.getId());
+		});
+		
+		itemPedidoRepository.deleteAllById(ids);
 	}
 	
 	public List<Pedido> listarTodos() {

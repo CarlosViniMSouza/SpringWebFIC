@@ -41,7 +41,7 @@ public class PedidoController {
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody Pedido pedido) {
-		pedido = pedidoService.atualizar(id, pedido);
+		pedido = pedidoService.atualizar(pedido, id);
 		
 		return ResponseEntity.noContent().build();
 	}
