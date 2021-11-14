@@ -11,8 +11,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import edu.ifam.projetofic.security.filter.JwtAuthenticationFilter;
+import edu.ifam.projetofic.security.filter.JwtAuthorizationFilter;
+import edu.ifam.projetofic.security.util.JwtUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -22,11 +27,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private Environment env;
 	
 	@Autowired
+	private JwtUtil jwtUtil;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	private static final String[] PUBLIC_MATCHERS = {
 		"/h2-console/**",
-		"/clientes/**"
+		"/clientes/**",
 	};
 	
 	private static final String[] PUBLIC_MATCHERS_GET = {
@@ -45,6 +53,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 	}
 	
 	@Override

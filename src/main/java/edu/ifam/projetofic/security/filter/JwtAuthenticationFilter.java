@@ -3,6 +3,7 @@ package edu.ifam.projetofic.security.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) 
 			throws AuthenticationException {
 		try {
-			
 			Credencial credencial = new ObjectMapper().readValue(request.getInputStream(), Credencial.class);
 			
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -43,19 +43,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication auth = authManager.authenticate(authToken);
 			
 			return auth;
-			
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 		}
 	}
 	
 	@Override
-	protected void sucessfulAuthentication(
+	protected void successfulAuthentication(
 			HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) 
 					throws IOException, ServletException {
 		
 		String cpf = ((JwtUser) authResult.getPrincipal()).getUsername();
 		String token = jwtUtil.GenerateToken(cpf);
-		response.addHeader(cpf, token);
+		response.addHeader("Authorization", "Bearer " + token);
 	}
 }
