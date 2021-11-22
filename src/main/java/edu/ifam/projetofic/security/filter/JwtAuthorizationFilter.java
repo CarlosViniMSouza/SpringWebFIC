@@ -47,10 +47,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
-		if(jwtUtil.tokenValidate(token)) {
-			String cpf = jwtUtil.getCpf(token);
+		
+		if(jwtUtil.ValidateToken(token)) {
 			
+			String cpf = jwtUtil.getCpf(token);
 			UserDetails user = userDetailsService.loadUserByUsername(cpf);
+			
 			return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		}
 		

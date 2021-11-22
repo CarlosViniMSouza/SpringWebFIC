@@ -53,6 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
+		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));

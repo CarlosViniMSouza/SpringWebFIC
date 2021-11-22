@@ -27,7 +27,7 @@ public class JwtUtil {
 				.compact();
 	}
 	
-	public boolean tokenValidate(String token) {
+	public boolean ValidateToken(String token) {
 		
 		Claims claims = getClaims(token);
 		
@@ -57,8 +57,8 @@ public class JwtUtil {
 	}
 	
 	private Claims getClaims(String token) {
+		
 		try {
-			
 			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
 		} catch(Exception e) {
 			

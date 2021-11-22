@@ -15,11 +15,12 @@ public class JwtUser implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	public JwtUser() {
-		
+		//Empty
 	}
 	
 	public JwtUser(Integer id, String username, String password, 
 			Collection<? extends GrantedAuthority> authorities) {
+		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -28,6 +29,7 @@ public class JwtUser implements UserDetails {
 	}
 	
 	public Integer getId() {
+		
 		return id;
 	}
 

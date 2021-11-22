@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Credencial implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	private String cpf;
 	private String senha;
-	
 	
 	public String getCpf() {
 		return cpf;
@@ -24,7 +24,4 @@ public class Credencial implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
-	
 }
